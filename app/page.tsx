@@ -1,79 +1,38 @@
 "use client";
-import {useMemo,useState} from "react";
+import { ChangeEvent, useMemo, useState } from "react";
 
-const templates=["禅意思考","王阳明心学","人生感悟","传统文化"];
-const sections=[
- ["开场核心金句","一句话先把观点钉住"],
- ["反常识钩子","打破观众原有认知，制造继续看下去的理由"],
- ["大多数人的认知 + 举例说明","先说大家通常怎么想，再用生活场景让观点落地"],
- ["正确理解和说明","给出真正的理解、逻辑和可执行的启发"],
- ["结尾","用一句有余味的话收束，让观众愿意转发或收藏"]
-];
+const templates = ["禅意思考","王阳明心学","人生感悟","传统文化"];
+const tones = ["沉稳、有力量","温和、克制","犀利、有冲击","口语、接地气"];
+const lengths = ["30 秒","45 秒","60 秒","90 秒"];
+const structure = [["01","开场核心金句"],["02","反常识钩子"],["03","大多数人的认知 + 举例说明"],["04","正确理解和说明"],["05","结尾"]];
+const demo = "开场核心金句：\n真正让一个人变强的，从来不是控制情绪，而是看见情绪之后，依然知道自己该做什么。\n\n反常识钩子：\n很多人以为，修养好的人应该没有情绪。其实恰恰相反，一个真正稳定的人，不是没有情绪，而是不把情绪当成命令。\n\n大多数人的认知 + 举例说明：\n我们遇到一句不好听的话，第一反应往往是反击；工作里被否定了，就开始证明自己；关系里受了委屈，就急着让对方知道自己有多难受。我们以为这是在维护自己，其实很多时候，只是在跟着情绪走。\n\n正确理解和说明：\n真正的自我掌控，不是把情绪压下去，而是在情绪出现的时候，多留一秒钟。看见它，再决定要不要回应。真正的知行合一，是在事情发生的那一刻，仍然能够按照自己认可的原则行动。\n\n结尾：\n人真正的自由，不是从此没有情绪，而是情绪来了，它可以被你看见，却不能替你做决定。";
 
 export default function Home(){
- const [idea,setIdea]=useState("");
- const [url,setUrl]=useState("");
- const [template,setTemplate]=useState("王阳明心学");
- const [started,setStarted]=useState(false);
- const [tab,setTab]=useState<"style"|"script">("style");
- const [duration,setDuration]=useState("45");
- const [tone,setTone]=useState("沉稳、有力量");
- const [script,setScript]=useState(sections.map(([title])=>title+"：").join("\n"));
- const summary=useMemo(()=>idea.trim()?idea.trim().slice(0,70)+(idea.trim().length>70?"…":""):"尚未输入灵感", [idea]);
-
- return <main className="min-h-screen bg-[#f7f7f5]">
-  <header className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
-   <div className="text-lg font-semibold tracking-tight">AI 视频创作</div>
-   <div className="text-sm text-neutral-400">灵感 → 脚本 → 成片</div>
-  </header>
-
-  {!started ? <section className="mx-auto flex max-w-3xl flex-col items-center px-6 pt-20 pb-16 text-center">
-   <div className="mb-5 rounded-full border border-neutral-200 bg-white px-4 py-2 text-xs text-neutral-500">AI 短视频工作台</div>
-   <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">把你的想法，变成一条视频</h1>
-   <p className="mt-4 max-w-xl text-base leading-7 text-neutral-500">输入灵感，可选参考视频。AI 提炼高层表达与剪辑规律，再生成原创脚本。</p>
-   <div className="mt-10 w-full rounded-2xl border border-neutral-200 bg-white p-3 text-left shadow-sm">
-    <textarea value={idea} onChange={e=>setIdea(e.target.value)} placeholder="写下你的灵感，例如：真正厉害的人，不是没有情绪，而是不会被情绪牵着走。" className="min-h-36 w-full resize-none border-0 p-4 text-base outline-none placeholder:text-neutral-300"/>
-    <div className="border-t border-neutral-100 p-3">
-     <input value={url} onChange={e=>setUrl(e.target.value)} placeholder="参考视频链接（可选）" className="w-full rounded-xl bg-neutral-50 px-4 py-3 text-sm outline-none placeholder:text-neutral-400"/>
-    </div>
-    <div className="flex flex-col gap-3 border-t border-neutral-100 p-3 sm:flex-row">
-     <select value={template} onChange={e=>setTemplate(e.target.value)} className="rounded-xl bg-neutral-50 px-4 py-3 text-sm outline-none">{templates.map(x=><option key={x}>{x}</option>)}</select>
-     <button onClick={()=>setStarted(true)} disabled={!idea.trim()} className="flex-1 rounded-xl bg-neutral-900 px-5 py-3 text-sm font-medium text-white transition hover:bg-neutral-700 disabled:cursor-not-allowed disabled:bg-neutral-200">开始创作 →</button>
-    </div>
-   </div>
-   <div className="mt-10 flex items-center gap-3 text-xs text-neutral-400"><span>① 灵感</span><span>→</span><span>② AI脚本</span><span>→</span><span>③ 自动剪辑</span></div>
-  </section> :
-  <section className="mx-auto max-w-6xl px-6 pb-16 pt-8">
-   <div className="mb-6 flex items-center justify-between">
-    <div><button onClick={()=>setStarted(false)} className="text-sm text-neutral-500 hover:text-neutral-900">← 返回</button><h1 className="mt-3 text-2xl font-semibold">创作工作台</h1></div>
-    <button className="rounded-xl bg-neutral-900 px-5 py-3 text-sm font-medium text-white">下一步：上传素材 →</button>
-   </div>
-   <div className="grid gap-5 lg:grid-cols-[1fr_360px]">
-    <div className="rounded-2xl border border-neutral-200 bg-white p-5">
-     <div className="flex gap-2 border-b border-neutral-100 pb-4">
-      <button onClick={()=>setTab("style")} className={`rounded-lg px-4 py-2 text-sm ${tab==="style"?"bg-neutral-900 text-white":"text-neutral-500"}`}>① 参考风格</button>
-      <button onClick={()=>setTab("script")} className={`rounded-lg px-4 py-2 text-sm ${tab==="script"?"bg-neutral-900 text-white":"text-neutral-500"}`}>② 原创脚本</button>
-     </div>
-     {tab==="style" ? <div className="pt-6">
-      <div className="rounded-xl bg-neutral-50 p-5"><div className="text-xs text-neutral-400">你的灵感</div><div className="mt-2 leading-7">{summary}</div></div>
-      <div className="mt-5 grid gap-3 sm:grid-cols-3">
-       <label className="rounded-xl border border-neutral-200 p-4"><div className="text-xs text-neutral-400">目标时长</div><select value={duration} onChange={e=>setDuration(e.target.value)} className="mt-2 w-full outline-none"><option value="30">30 秒</option><option value="45">45 秒</option><option value="60">60 秒</option><option value="90">90 秒</option></select></label>
-       <label className="rounded-xl border border-neutral-200 p-4"><div className="text-xs text-neutral-400">表达气质</div><select value={tone} onChange={e=>setTone(e.target.value)} className="mt-2 w-full outline-none"><option>沉稳、有力量</option><option>温和、克制</option><option>犀利、有冲击</option><option>口语、接地气</option></select></label>
-       <div className="rounded-xl border border-neutral-200 p-4"><div className="text-xs text-neutral-400">参考视频</div><div className="mt-2 truncate text-sm">{url||"未提供"}</div></div>
-      </div>
-      <div className="mt-6 rounded-xl border border-dashed border-neutral-300 p-8 text-center"><div className="text-sm font-medium">AI 风格分析</div><p className="mt-2 text-sm leading-6 text-neutral-500">接入视频分析后，这里会提取表达节奏、口播密度、字幕节奏、转场规律和整体制作风格。</p><button onClick={()=>setTab("script")} className="mt-4 rounded-lg bg-neutral-900 px-4 py-2 text-sm text-white">生成原创脚本 →</button></div>
-     </div> :
-     <div className="pt-6">
-      <div className="mb-5 grid gap-3 sm:grid-cols-5">{sections.map(([title],i)=><div key={title} className="rounded-xl bg-neutral-50 p-3"><div className="text-xs text-neutral-400">0{i+1}</div><div className="mt-2 text-sm font-medium">{title}</div></div>)}</div>
-      <textarea value={script} onChange={e=>setScript(e.target.value)} className="min-h-[420px] w-full rounded-xl border border-neutral-200 p-5 text-sm leading-7 outline-none focus:border-neutral-400"/>
-      <div className="mt-4 flex justify-end"><button onClick={()=>alert("下一阶段接入真实 AI 生成")} className="rounded-xl bg-neutral-900 px-5 py-3 text-sm font-medium text-white">确认脚本，准备素材 →</button></div>
-     </div>}
-    </div>
-    <aside className="rounded-2xl border border-neutral-200 bg-white p-5">
-     <div className="text-sm font-medium">创作设置</div>
-     <div className="mt-5 space-y-4 text-sm"><div><div className="text-xs text-neutral-400">内容方向</div><div className="mt-2 rounded-xl bg-neutral-50 px-4 py-3">{template}</div></div><div><div className="text-xs text-neutral-400">当前步骤</div><div className="mt-2 rounded-xl bg-neutral-50 px-4 py-3">{tab==="style"?"分析参考风格":"编辑原创脚本"}</div></div><div><div className="text-xs text-neutral-400">制作目标</div><div className="mt-2 leading-6 text-neutral-500">保持参考视频的高层节奏与制作逻辑，不复制原视频的具体表达。</div></div></div>
-    </aside>
-   </div>
+ const [idea,setIdea]=useState(""),[reference,setReference]=useState(""),[template,setTemplate]=useState("王阳明心学"),[tone,setTone]=useState("沉稳、有力量"),[length,setLength]=useState("45 秒");
+ const [step,setStep]=useState("create"),[script,setScript]=useState(""),[loading,setLoading]=useState(false),[video,setVideo]=useState<string|null>(null),[videoName,setVideoName]=useState(""),[status,setStatus]=useState("");
+ const count=useMemo(()=>script.replace(/\s/g,"").length,[script]);
+ async function generate(){
+  if(!idea.trim())return; setLoading(true);setStatus("正在生成原创脚本…");
+  try{const r=await fetch("/api/generate-script",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({idea,reference,template,tone,length})});const d=await r.json();if(!r.ok)throw Error();setScript(d.script);setStep("script");setStatus("");}
+  catch{setScript(demo);setStep("script");setStatus("当前未配置 AI API，已载入示例脚本；配置 OPENAI_API_KEY 后即可真实生成。");}
+  finally{setLoading(false);}
+ }
+ function upload(e:ChangeEvent<HTMLInputElement>){const f=e.target.files?.[0];if(!f)return;if(!f.type.startsWith("video/")){setStatus("请选择视频文件。");return;}if(video)URL.revokeObjectURL(video);setVideo(URL.createObjectURL(f));setVideoName(f.name);setStep("material");setStatus("");}
+ const nav=(s:string)=>setStep(s);
+ return <main className="min-h-screen bg-[#f6f6f3] text-[#171717]">
+  <header className="mx-auto flex max-w-6xl items-center justify-between px-5 py-5 sm:px-8"><button onClick={()=>nav("create")} className="text-lg font-semibold">AI 视频创作</button><div className="hidden text-sm text-neutral-400 sm:block">灵感 → 脚本 → 素材 → 成片</div></header>
+  {step==="create" && <section className="mx-auto max-w-3xl px-5 pb-20 pt-16 sm:pt-24"><div className="mb-5 inline-flex rounded-full border border-neutral-200 bg-white px-4 py-2 text-xs text-neutral-500">AI 短视频工作台</div><h1 className="text-4xl font-semibold tracking-tight sm:text-6xl">把一个想法，变成一条视频。</h1><p className="mt-5 text-base leading-7 text-neutral-500">输入你的灵感和参考视频，AI 提炼高层表达风格，生成原创脚本，再用你的原始素材自动剪辑。</p>
+   <div className="mt-10 overflow-hidden rounded-3xl border border-neutral-200 bg-white shadow-sm"><textarea value={idea} onChange={e=>setIdea(e.target.value)} placeholder="写下你的灵感……" className="min-h-44 w-full resize-none p-6 text-lg leading-8 outline-none placeholder:text-neutral-300"/><div className="border-t border-neutral-100 p-4"><input value={reference} onChange={e=>setReference(e.target.value)} placeholder="参考视频链接（可选）" className="w-full rounded-xl bg-neutral-50 px-4 py-3 text-sm outline-none"/></div>
+    <div className="grid gap-3 border-t border-neutral-100 p-4 sm:grid-cols-3"><select value={template} onChange={e=>setTemplate(e.target.value)} className="rounded-xl bg-neutral-50 px-4 py-3 text-sm">{templates.map(x=><option key={x}>{x}</option>)}</select><select value={length} onChange={e=>setLength(e.target.value)} className="rounded-xl bg-neutral-50 px-4 py-3 text-sm">{lengths.map(x=><option key={x}>{x}</option>)}</select><select value={tone} onChange={e=>setTone(e.target.value)} className="rounded-xl bg-neutral-50 px-4 py-3 text-sm">{tones.map(x=><option key={x}>{x}</option>)}</select></div>
+    <div className="p-4 pt-0"><button onClick={generate} disabled={!idea.trim()||loading} className="w-full rounded-xl bg-neutral-900 px-5 py-3.5 text-sm font-medium text-white disabled:bg-neutral-200">{loading?"AI 正在创作…":"开始创作 →"}</button></div></div>
+   <div className="mt-8 flex justify-center gap-3 text-xs text-neutral-400"><span>① 灵感</span><span>→</span><span>② 原创脚本</span><span>→</span><span>③ 原始素材</span><span>→</span><span>④ 自动剪辑</span></div>
+  </section>}
+  {step!=="create" && <section className="mx-auto max-w-6xl px-5 pb-20 sm:px-8"><div className="mb-7 flex items-end justify-between"><div><button onClick={()=>nav("create")} className="text-sm text-neutral-500">← 重新开始</button><h1 className="mt-3 text-3xl font-semibold">创作工作台</h1></div><div className="flex gap-2 text-xs">{[["script","脚本"],["material","素材"],["edit","成片"]].map((x,i)=><button key={x[0]} onClick={()=>nav(x[0])} className={"rounded-full px-3 py-2 "+(step===x[0]?"bg-neutral-900 text-white":"border border-neutral-200 bg-white text-neutral-400")}>{i+1} {x[1]}</button>)}</div></div>
+   {step==="script" && <div className="grid gap-5 lg:grid-cols-[1fr_330px]"><div className="rounded-3xl border border-neutral-200 bg-white p-5 sm:p-7"><div className="flex items-center justify-between border-b border-neutral-100 pb-5"><div><h2 className="font-medium">原创脚本</h2><p className="mt-1 text-xs text-neutral-400">只写内容，不生成分镜。</p></div><span className="text-xs text-neutral-400">{count} 字</span></div><div className="mt-5 grid grid-cols-5 gap-2">{structure.map(x=><div key={x[0]} className="rounded-xl bg-neutral-50 p-3"><div className="text-[10px] text-neutral-400">{x[0]}</div><div className="mt-2 text-xs font-medium leading-5">{x[1]}</div></div>)}</div><textarea value={script} onChange={e=>setScript(e.target.value)} className="mt-5 min-h-[520px] w-full rounded-2xl border border-neutral-200 p-5 text-sm leading-8 outline-none"/>{status&&<p className="mt-3 text-xs text-neutral-400">{status}</p>}<div className="mt-5 flex justify-end"><button onClick={()=>nav("material")} className="rounded-xl bg-neutral-900 px-5 py-3 text-sm text-white">确认脚本 → 上传素材</button></div></div>
+    <aside className="h-fit rounded-3xl border border-neutral-200 bg-white p-6"><h3 className="font-medium">创作设置</h3><div className="mt-5 space-y-4 text-sm"><div><div className="text-xs text-neutral-400">内容方向</div><div className="mt-2 rounded-xl bg-neutral-50 px-4 py-3">{template}</div></div><div><div className="text-xs text-neutral-400">目标时长</div><div className="mt-2 rounded-xl bg-neutral-50 px-4 py-3">{length}</div></div><div><div className="text-xs text-neutral-400">表达气质</div><div className="mt-2 rounded-xl bg-neutral-50 px-4 py-3">{tone}</div></div><div><div className="text-xs text-neutral-400">参考视频</div><div className="mt-2 truncate rounded-xl bg-neutral-50 px-4 py-3">{reference||"未提供"}</div></div></div></aside>
+   </div>}
+   {step==="material" && <div className="grid gap-5 lg:grid-cols-[1fr_330px]"><div className="rounded-3xl border border-neutral-200 bg-white p-7"><h2 className="text-xl font-semibold">上传你的原始素材</h2><p className="mt-2 text-sm text-neutral-500">上传口播、生活片段或多段视频，成片会使用你的原创素材。</p><label className="mt-8 flex min-h-72 cursor-pointer flex-col items-center justify-center rounded-2xl border border-dashed border-neutral-300 bg-neutral-50"><input type="file" accept="video/*" className="hidden" onChange={upload}/><div className="text-3xl">＋</div><div className="mt-3 text-sm font-medium">点击上传视频</div><div className="mt-1 text-xs text-neutral-400">MP4 / MOV / WebM</div></label>{video&&<div className="mt-5 overflow-hidden rounded-2xl bg-black"><video src={video} controls className="max-h-[480px] w-full"/></div>}{videoName&&<div className="mt-3 text-xs text-neutral-500">{videoName}</div>}<div className="mt-6 flex justify-end"><button disabled={!video} onClick={()=>nav("edit")} className="rounded-xl bg-neutral-900 px-5 py-3 text-sm text-white disabled:bg-neutral-200">开始自动剪辑 →</button></div></div><aside className="h-fit rounded-3xl border border-neutral-200 bg-white p-6"><h3 className="font-medium">本次剪辑</h3><div className="mt-5 space-y-3 text-sm text-neutral-500"><div className="rounded-xl bg-neutral-50 p-4">脚本：已确认</div><div className="rounded-xl bg-neutral-50 p-4">参考风格：{reference?"已提供":"无"}</div><div className="rounded-xl bg-neutral-50 p-4">目标比例：9:16</div></div></aside></div>}
+   {step==="edit" && <div className="grid gap-5 lg:grid-cols-[1fr_330px]"><div className="rounded-3xl border border-neutral-200 bg-white p-6"><div className="flex items-center justify-between"><div><h2 className="text-xl font-semibold">成片预览</h2><p className="mt-1 text-sm text-neutral-500">这里是最终成片工作区。</p></div><span className="rounded-full bg-neutral-100 px-3 py-1 text-xs">9:16</span></div><div className="mx-auto mt-6 flex aspect-[9/16] max-h-[620px] max-w-[350px] items-center justify-center overflow-hidden rounded-2xl bg-neutral-950">{video?<video src={video} controls className="h-full w-full object-contain"/>:<div className="text-sm text-neutral-500">等待素材</div>}</div><div className="mt-5 rounded-2xl bg-neutral-50 p-4 text-sm leading-7 text-neutral-600 whitespace-pre-wrap">{script}</div><div className="mt-5 flex gap-3"><button onClick={()=>nav("script")} className="flex-1 rounded-xl border border-neutral-200 px-5 py-3 text-sm">修改脚本</button><button onClick={()=>setStatus("导出模块已预留：接入 FFmpeg 后即可输出最终 MP4。")} className="flex-1 rounded-xl bg-neutral-900 px-5 py-3 text-sm text-white">导出成片</button></div>{status&&<p className="mt-3 text-center text-xs text-neutral-400">{status}</p>}</div><aside className="h-fit rounded-3xl border border-neutral-200 bg-white p-6"><h3 className="font-medium">剪辑规则</h3><ul className="mt-5 space-y-3 text-sm leading-6 text-neutral-500"><li>• 以脚本口播节奏为主线</li><li>• 优先保留完整表达</li><li>• 删除明显空白与废片段</li><li>• 参考高层节奏，不复制原视频</li><li>• 输出竖屏 9:16</li></ul></aside></div>}
   </section>}
  </main>
 }
