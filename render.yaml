@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: ai-video-web
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    branch: main
+    envVars:
+      - key: NEXT_PUBLIC_VIDEO_API_URL
+        value: https://ai-video-worker.onrender.com
+      - key: OPENAI_MODEL
+        value: gpt-5.6-luna
+      - key: OPENAI_API_KEY
+        sync: false
+
+  - type: web
+    name: ai-video-worker
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    branch: main
+    healthCheckPath: /health
+    envVars:
+      - key: CORS_ORIGINS
+        value: https://ai-video-web.onrender.com
+      - key: DATA_DIR
+        value: /data
