@@ -61,7 +61,7 @@ export default function Home(){
        <label className="rounded-xl border border-neutral-200 p-4"><div className="text-xs text-neutral-400">表达气质</div><select value={tone} onChange={e=>setTone(e.target.value)} className="mt-2 w-full outline-none"><option>沉稳、有力量</option><option>温和、克制</option><option>犀利、有冲击</option><option>口语、接地气</option></select></label>
        <div className="rounded-xl border border-neutral-200 p-4"><div className="text-xs text-neutral-400">参考视频</div><div className="mt-2 truncate text-sm">{url||"未提供"}</div></div>
       </div>
-      <div className="mt-6 rounded-xl border border-dashed border-neutral-300 p-8 text-center"><div className="text-sm font-medium">AI 风格分析</div><p className="mt-2 text-sm leading-6 text-neutral-500">接入视频分析后，这里会提取镜头节奏、口播密度、字幕位置、转场频率和画面构成。</p><button onClick={()=>setTab("script")} className="mt-4 rounded-lg bg-neutral-900 px-4 py-2 text-sm text-white">生成原创脚本 →</button></div>
+      <div className="mt-6 rounded-xl border border-dashed border-neutral-300 p-8 text-center"><div className="text-sm font-medium">AI 风格分析</div><p className="mt-2 text-sm leading-6 text-neutral-500">接入视频分析后，这里会提取表达节奏、口播密度、字幕节奏、转场规律和整体制作风格。</p><button onClick={()=>setTab("script")} className="mt-4 rounded-lg bg-neutral-900 px-4 py-2 text-sm text-white">生成原创脚本 →</button></div>
      </div> :
      <div className="pt-6">
       <div className="mb-5 grid gap-3 sm:grid-cols-5">{sections.map(([title],i)=><div key={title} className="rounded-xl bg-neutral-50 p-3"><div className="text-xs text-neutral-400">0{i+1}</div><div className="mt-2 text-sm font-medium">{title}</div></div>)}</div>
