@@ -154,7 +154,7 @@ def edit(req: EditRequest):
     make_srt(req.script, target, srt)
     vf = "scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920"
     if req.subtitle and srt.exists() and req.script.strip():
-        vf += f",subtitles={str(srt).replace(':','\\:').replace('\\','/')}:force_style='FontName=Arial,FontSize=18,PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,Outline=3,MarginV=120,Alignment=2'"
+        subtitle_path = str(srt).replace("\\", "/").replace(":", "\\:")\n        vf += f",subtitles={subtitle_path}:force_style='FontName=Arial,FontSize=18,PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,Outline=3,MarginV=120,Alignment=2'
     cmd = [
         "ffmpeg","-y","-ss",f"{start:.3f}","-i",str(source),"-t",f"{target:.3f}",
         "-vf",vf,"-c:v","libx264","-preset","veryfast","-crf","20",
