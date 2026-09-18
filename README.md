@@ -14,7 +14,7 @@
 - FFmpeg 自动处理：检测明显开头/结尾静音、裁切为 1080×1920、自动生成字幕、H.264/AAC MP4 导出
 - Docker Compose：Next.js 前端 + FastAPI/FFmpeg 视频工作器
 
-OpenAI 的 GPT-5.6 Luna 可通过 Responses API 使用；语音转写可进一步接入专用 transcription 模型。citeturn0search0turn1search0
+OpenAI 的 GPT-5.6 Luna 可通过 Responses API 使用；语音转写可进一步接入专用 transcription 模型。
 
 ## 本地运行
 
@@ -48,7 +48,7 @@ http://localhost:8000/docs
 
 参考视频目前建议直接上传视频文件。普通网页链接不一定能直接取得视频媒体文件，因此网页链接字段会作为创作上下文传给脚本模型，但不会假装已经完成视频内容分析。
 
-自动剪辑当前是“基础自动剪辑”：去除明显开头/结尾静音、竖屏裁切、字幕、MP4 导出。FFmpeg 官方文档提供了 `silencedetect` 等音频检测能力。citeturn2search1
+自动剪辑当前是“基础自动剪辑”：去除明显开头/结尾静音、竖屏裁切、字幕、MP4 导出。FFmpeg 官方提供了 `silencedetect` 等音频检测能力。
 
 下一阶段如果继续产品化，可加入：
 
